@@ -139,9 +139,69 @@ const shuffled = squares.sort(() => Math.random() - 0.5);
 
 // ✅ Create the bingo grid
 const board = document.getElementById("board");
-for (let i = 0; i < 25; i++) {
+const log = document.getElementById("log");
+const playerSelect = document.getElementById("player-select");
+
+const playerColors = {
+  "Player 1": "red",
+  "Player 2": "blue"
+};
+
+const playerScores = {
+  "Player 1": 0,
+  "Player 2": 0
+};
+
+const markedSquares = new Map();
+
+function updateScores() {
+  document.getElementById("p1-score").textContent = `Player 1: ${playerScores["Player 1"]}`;
+  document.getElementById("p2-score").textContent = `Player 2: ${playerScores["Player 2"]}`;
+}
+
+function addLogEntry(player, text) {
+  const time = new Date().toLocaleTimeString();
+  const entry = document.createElement("div");
+  entry.textContent = `[${time}] ${player} marked: "${text}"`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function adjustFontSize(el) {
+  let size = 14;
+  while (el.scrollHeight > el.clientHeight && size > 8) {
+    size -= 1;
+    el.style.fontSize = `${size}px`;
+  }
+}
+
+shuffled.forEach(text => {
   const div = document.createElement("div");
   div.className = "square";
-  div.textContent = shuffled[i];
+  div.textContent = text;
+  adjustFontSize(div);
+
+  div.addEventListener("click", () => {
+    const currentPlayer = playerSelect.value;
+    const color = playerColors[currentPlayer];
+
+    if (!markedSquares.has(div)) {
+      markedSquares.set(div, currentPlayer);
+      div.style.background = color;
+      playerScores[currentPlayer]++;
+      updateScores();
+      addLogEntry(currentPlayer, text);
+    } else {
+      const prevPlayer = markedSquares.get(div);
+      if (prevPlayer === currentPlayer) {
+        markedSquares.delete(div);
+        div.style.background = "#222";
+        playerScores[currentPlayer]--;
+        updateScores();
+        addLogEntry(currentPlayer, `unmarked: "${text}"`);
+      }
+    }
+  });
+
   board.appendChild(div);
-}
+});
