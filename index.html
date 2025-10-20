@@ -5,14 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elden Ring Bingo</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #121212; color: #fff; }
-    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 600px; margin: 20px auto; }
-    .square { background: #222; padding: 20px; border-radius: 10px; }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #121212;
+      color: #fff;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .scoreboard {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .player {
+      background: #222;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .square {
+      background: #222;
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .square:hover {
+      transform: scale(1.05);
+    }
+
+    #log {
+      background: #1c1c1c;
+      padding: 10px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 10px;
+      text-align: left;
+      height: 150px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    select {
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
   </style>
 </head>
 <body>
   <h1>Elden Ring Bingo</h1>
+
+  <div class="scoreboard">
+    <div class="player" id="p1-score">Player 1: 0</div>
+    <div class="player" id="p2-score">Player 2: 0</div>
+    <div>
+      <label>Current Player: </label>
+      <select id="player-select">
+        <option value="Player 1">Player 1</option>
+        <option value="Player 2">Player 2</option>
+      </select>
+    </div>
+  </div>
+
   <div id="board" class="grid"></div>
+
+  <div id="log"><b>Action Log:</b><br /></div>
+
   <script src="script.js"></script>
 </body>
 </html>
